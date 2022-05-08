@@ -1,6 +1,7 @@
 package UI;
 
 import Game.Game;
+import Monster.SuperMonster;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,36 +9,38 @@ import java.awt.*;
 public class UI {
 
     JFrame window;
-    public JPanel titleNamePanel;
-    public JPanel startButtonPanel;
+    public JPanel titleNamePanel, infoNamePanel;
+    public JPanel startButtonPanel,infoButtonPanel;
     public JPanel mainTextPanel;
     public JPanel choiceButtonPanel;
     public JPanel playerPanel;
-    public JLabel titleNameLabel;
-    public JLabel hpLabel;
-    public JLabel hpNumberLabel;
-    public Label weaponLabel;
-    public JLabel weaponNameLabel;
-    public JTextArea mainTextArea;
-    public JButton startButton, choice1, choice2, choice3, choice4;
-    Font titleFont = new Font("Times New Roman", Font.PLAIN, 90);
-    Font normalFont = new Font("Times New Roman", Font.PLAIN, 26);
+    public JLabel titleNameLabel, infoNameLabel;
+    public JLabel hpLabel, itemLabel, weaponLabel ,monsterWeaponLabel,monsterWeaponNameLabel, monsterHpNumberLabel, monsterHpLabel;
+    public JLabel hpNumberLabel, itemNameLabel, weaponNameLabel;
+    public JTextArea mainTextArea, infoTextArea;
+    public JButton startButton,infoButton, choice1, choice2, choice3, choice4;
+    Font titleFont = new Font("BIZ UDMincho", Font.PLAIN, 115);
+    Font normalFont = new Font("BIZ UDMincho", Font.PLAIN, 26);
+    Font buttonFont = new Font("BIZ UDMincho", Font.PLAIN, 30);
+
+    //SuperMonster monster = new SuperMonster();
 
 
     public void createUI(Game.ChoiceHandler choiceHandler) {
         //WINDOW
-        window = new JFrame();
+        window = new JFrame("ADVENTURE");
         window.setSize(800, 600);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.getContentPane().setBackground(Color.black);
         window.setLayout(null);
 
+
         //TITLE SCREEN
         titleNamePanel = new JPanel();
         titleNamePanel.setBounds(100, 100, 600, 500);
         titleNamePanel.setBackground(Color.black);
-        titleNameLabel = new JLabel("ADVENTURE");
-        titleNameLabel.setForeground(Color.white);
+        titleNameLabel = new JLabel("ADVENTURE.");
+        titleNameLabel.setForeground(Color.yellow);
         titleNameLabel.setFont(titleFont);
         titleNamePanel.add(titleNameLabel);
 
@@ -46,16 +49,53 @@ public class UI {
         startButtonPanel.setBounds(300, 400, 200, 100);
         startButtonPanel.setBackground(Color.black);
         startButton = new JButton("BEGIN");
-        startButton.setBackground(Color.green);
-        startButton.setForeground(Color.white);
-        startButton.setFont(normalFont);
+        startButton.setBackground(Color.white);
+        startButton.setForeground(Color.black);
+        startButton.setFont(buttonFont);
         startButton.setFocusPainted(false);
         startButton.addActionListener(choiceHandler);
-        startButton.setActionCommand("start");
+        startButton.setActionCommand("begin");
         startButtonPanel.add(startButton);
         //INSTANTIATE EVERYTHING TO GAME WINDOW HERE:
         window.add(titleNamePanel);
         window.add(startButtonPanel);
+
+
+        //TODO -------
+        //INFO/HOW TO PLAY SCREEN
+        infoNamePanel = new JPanel();
+        infoNamePanel.setBounds(100, 100, 600, 250); //THESE BOUNDS ARE TOO SMALL. NEED TO SHOW ENTIRE SPACE.
+        infoNamePanel.setBackground(Color.black);
+        infoNameLabel = new JLabel("HOW TO PLAY:");
+        infoNameLabel.setForeground(Color.white);
+        infoNameLabel.setFont(normalFont);
+        infoNamePanel.add(infoNameLabel);
+
+        infoButtonPanel = new JPanel();
+        infoButtonPanel.setBounds(300, 400, 200, 100);
+        infoButtonPanel.setBackground(Color.black);
+
+        infoTextArea = new JTextArea();
+        infoTextArea.setBounds(100, 100, 600, 300);
+        infoTextArea.setBackground(Color.black);
+        infoTextArea.setForeground(Color.white);
+        infoTextArea.setFont(normalFont);
+        infoTextArea.setLineWrap(true);
+        infoTextArea.setWrapStyleWord(true);
+        infoTextArea.setEditable(false);
+        infoNamePanel.add(infoTextArea);
+
+        infoButton = new JButton("START");
+        infoButton.setBackground(Color.white);
+        infoButton.setForeground(Color.black);
+        infoButton.setFont(buttonFont);
+        infoButton.setFocusPainted(false);
+        infoButton.addActionListener(choiceHandler);
+        infoButton.setActionCommand("start");
+        infoButtonPanel.add(infoButton);
+
+        window.add(infoNamePanel);
+        window.add(infoButtonPanel);
 
         //GAME SCREEN
         mainTextPanel = new JPanel();
@@ -63,7 +103,7 @@ public class UI {
         mainTextPanel.setBackground(Color.black);
         window.add(mainTextPanel);
 
-        mainTextArea = new JTextArea("This is the main text area");
+        mainTextArea = new JTextArea();
         mainTextArea.setBounds(100, 100, 600, 250);
         mainTextArea.setBackground(Color.black);
         mainTextArea.setForeground(Color.white);
@@ -113,12 +153,15 @@ public class UI {
         choiceButtonPanel.add(choice4);
 
         playerPanel = new JPanel();
-        playerPanel.setBounds(100, 15, 600, 50);
+        playerPanel.setBounds(10, 15, 760, 50);
         playerPanel.setBackground(Color.black);
         playerPanel.setLayout(new GridLayout(1, 4));
         window.add(playerPanel);
 
-        hpLabel = new JLabel("HP: ");
+        //HP/WEAPON/ITEM LABELS
+
+        //TODO HP LABELS\\
+        hpLabel = new JLabel();
         hpLabel.setFont(normalFont);
         hpLabel.setForeground(Color.white);
         playerPanel.add(hpLabel);
@@ -126,14 +169,50 @@ public class UI {
         hpNumberLabel.setForeground(Color.white);
         hpNumberLabel.setFont(normalFont);
         playerPanel.add(hpNumberLabel);
-        weaponLabel = new Label("Weapon: ");
+        //TODO HP LABELS\\
+
+
+        //TODO ITEM LABELS\\
+        itemLabel = new JLabel("Item:");
+        itemLabel.setFont(normalFont);
+        itemLabel.setForeground(Color.white);
+        itemLabel.setVisible(false); //WE WANT TO SET THIS TO TRUE ONCE WE FIND THE ITEM.
+        playerPanel.add(itemLabel);
+        itemNameLabel = new JLabel();
+        itemNameLabel.setForeground(Color.white);
+        itemNameLabel.setFont(normalFont);
+        playerPanel.add(itemNameLabel);
+        //TODO ITEM LABELS\\
+
+
+        //TODO WEAPON LABELS\\
+        weaponLabel = new JLabel("Weapon:");
         weaponLabel.setForeground(Color.white);
         weaponLabel.setFont(normalFont);
         playerPanel.add(weaponLabel);
         weaponNameLabel = new JLabel();
-        weaponNameLabel.setForeground(Color.white);
+        weaponNameLabel.setForeground(Color.decode("#ab500b"));
         weaponNameLabel.setFont(normalFont);
         playerPanel.add(weaponNameLabel);
+        //TODO WEAPON LABELS\\
+
+        monsterHpLabel = new JLabel("HP: ");
+        monsterHpLabel.setForeground(Color.white);
+        monsterHpLabel.setFont(normalFont);
+        window.add(monsterHpLabel);
+        monsterHpNumberLabel = new JLabel();
+        monsterHpNumberLabel.setForeground(Color.green);
+        monsterHpNumberLabel.setFont(normalFont);
+        window.add(monsterHpNumberLabel);
+
+        monsterWeaponLabel = new JLabel("Weapon: ");
+        monsterWeaponLabel.setForeground(Color.white);
+        monsterWeaponLabel.setFont(normalFont);
+        window.add(monsterWeaponLabel);
+        monsterWeaponNameLabel = new JLabel();
+        monsterWeaponNameLabel.setForeground(Color.decode("#ff002e"));
+        monsterWeaponNameLabel.setFont(normalFont);
+        window.add(monsterWeaponNameLabel);
 
 
         window.setVisible(true);
